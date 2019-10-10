@@ -14,7 +14,8 @@
             "group": {
                 "isDefault": true,
                 "kind": "build"
-            }
+            },
+            "problemMatcher": []
         },
         {
             "label": "build noisemakerTests",

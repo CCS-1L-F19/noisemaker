@@ -6,11 +6,11 @@
 
 void writeWavFile(FILE *f, sample *inSamples, int numSamples, int sampleRateIn) {
     // Riff File Header
-    const char fileId[] = "RIFF";
+    const char fileId[4] = {'R', 'I', 'F', 'F'};
     // fileSize is computed later
-    const char fileFormat[] = "WAVE";
+    const char fileFormat[4] = {'W', 'A', 'V', 'E'};
 
-    const char wavHeaderDescriptor[] = "fmt ";
+    const char wavHeaderDescriptor[4] = {'f', 'm', 't', ' '};
     const int16_t compressionType = 1;
     const int16_t numChannels = 1;
     const int32_t sampleRate = sampleRateIn;
@@ -22,7 +22,7 @@ void writeWavFile(FILE *f, sample *inSamples, int numSamples, int sampleRateIn) 
                                   sizeof(sampleRate) + sizeof(blockAlign) + 
                                   sizeof(byteRate) + sizeof(bitsPerSample);
 
-    const char dataDescriptor[] = "data";
+    const char dataDescriptor[4] = {'d', 'a', 't', 'a'};
     const int32_t dataSize = numSamples * blockAlign;
 
     const int32_t fileSize = sizeof(fileFormat) + sizeof(wavHeaderDescriptor) + sizeof(wavHeaderSize) +
