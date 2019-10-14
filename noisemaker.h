@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include <limits>
 #include <cassert>
 #include <cinttypes>
 
@@ -28,23 +29,25 @@ class Constant: public Signal {
 
 class LinearEnvelope: public Signal {
     public:
-        sample step();
-        LinearEnvelope();
-        LinearEnvelope(sample aSam, int aDur, sample dSam, int dDur, sample sSam, int sDur, sample rSam, int rDur);
-    private:
-        int samplesElapsed;
         struct Phase {
             sample value;
-            int duration;
+            int time;
+            int timeInSamples();
         };
-        Phase phases[];
+        sample step();
+        LinearEnvelope();
+        LinearEnvelope(std::vector<Phase> phasev);
+        void setPhases(std::vector<Phase> phasev);
+    private:
+        int samplesElapsed;
+        std::vector<Phase> phases;
 };
 
 class Oscillator: public Signal {
     public:
         sample step();
 
-        static Oscillator sineWave(int frequency);
+        static Oscillator sineWave(int frequency, Signal amplitudeSignal = Constant(std::numeric_limits<sample>::max()));
 
         Oscillator(int amp, std::vector<double> wtab);
         template<class S1, class S2> Oscillator(S1 ampSig, S2 incSig, std::vector<double> wtab) {
