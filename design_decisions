@@ -1,0 +1,19 @@
+I considered two options for getting samples from a Signal object:
+
+1) A step() function that just returns one value after another and once that value is gone, it's gone. 
+
+2) A getSampleAtTime(int t) function that gives the value of a signal at any particular increment.
+
+
+The advantage of method 1 is that it allows for easy frequency modulation. An Oscillator's IncrementSignal
+can be varied and the frequency of the sound will change. The downside is that there is no way to hook up one
+Signal as the input of multiple other Signals, because each one will call the step() function separately,
+messing stuff up. You can get around this by just copying Signals.
+
+The advantage of method 2 is that you don't have to copy Signal objects to make one Signal the input of
+multiple other signals. The disadvantage is that it makes frequency modulation very difficult. You won't know
+how the waveTable was incremented previously, so if you changed the incrementSignal from 1 to 2, the wave may
+skip foreward or backward in the wavetable.
+
+
+Conclusion: method 1 is superior.
