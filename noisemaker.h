@@ -27,25 +27,6 @@ class Constant: public Signal {
         int value;
 };
 
-class LinearEnvelope: public Signal {
-    public:
-        struct Phase {
-            double value;
-            double time;
-            int timeInSamples();
-            sample valueInSamples();
-            bool operator>(Phase p);
-            bool operator<(Phase p);
-        };
-        sample step();
-        LinearEnvelope();
-        LinearEnvelope(std::vector<Phase> phasev);
-        void setPhases(std::vector<Phase> phasev);
-    private:
-        int samplesElapsed;
-        std::vector<Phase> phases;
-};
-
 class Oscillator: public Signal {
     public:
         sample step();
@@ -72,6 +53,25 @@ class Oscillator: public Signal {
         int waveTableIndex;
         void setFieldsToZero();
  };
+
+class LinearEnvelope: public Signal {
+    public:
+        struct Phase {
+            double value;
+            double time;
+            int timeInSamples();
+            sample valueInSamples();
+            bool operator>(Phase p);
+            bool operator<(Phase p);
+        };
+        sample step();
+        LinearEnvelope();
+        LinearEnvelope(std::vector<Phase> phasev);
+        void setPhases(std::vector<Phase> phasev);
+    private:
+        int samplesElapsed;
+        std::vector<Phase> phases;
+};
 
 class Adder {};
 

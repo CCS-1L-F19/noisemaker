@@ -14,9 +14,6 @@ namespace noisemaker {
 }
 
 sample Signal::step() {
-    // FOR SOME REASON THE ENVELOPE SIGNAL THAT IS PASSED TO
-    // AN OSCILLATOR IN THE TESTS CALLS THIS FUNCTION INSTEAD
-    // OF ITS OWN
     assert(false);
     return 0;
 }
@@ -55,7 +52,7 @@ sample Oscillator::step() {
 template<class S>
 Oscillator Oscillator::sineWave(double frequency, S amplitudeSignal) {
     vector<double> waveTable = {};
-    double periodInSamples = (double) noisemaker::sampleRate / frequency;
+    int periodInSamples = (double) noisemaker::sampleRate / frequency;
     for (int i= 0; i < periodInSamples; i++) {
         double cyclesPerSample = (double) frequency / noisemaker::sampleRate;
         double r = sin((cyclesPerSample) * 2 * M_PI * i);
@@ -97,7 +94,6 @@ void Oscillator::setFieldsToZero() {
 }
 
 // CLASS: LinearEnvelope
-// TODO
 
 LinearEnvelope::LinearEnvelope(vector<Phase> phasev) {
     samplesElapsed = 0;
@@ -114,15 +110,16 @@ int LinearEnvelope::Phase::timeInSamples() {
 }
 
 bool LinearEnvelope::Phase::operator>(Phase p) {
-    return value > p.value;
+    return time > p.time;
 }
 
 bool LinearEnvelope::Phase::operator<(Phase p) {
-    return value < p.value;
+    return time < p.time;
 }
 
 sample LinearEnvelope::Phase::valueInSamples() {
-    return value * numeric_limits<sample>::max();
+    int m = numeric_limits<sample>::max();
+    return value * m;
 }
 
 sample LinearEnvelope::step() {
@@ -131,7 +128,7 @@ sample LinearEnvelope::step() {
                 samplesElapsed++;
                 return phases.back().valueInSamples();
         }
-        if (samplesElapsed >= phases[i].timeInSamples()) {
+        if (samplesElapsed <= phases[i+1].timeInSamples()) {
             int phaseDurationInSamples = (phases[i+1].timeInSamples() - phases[i].timeInSamples());
             assert(phaseDurationInSamples > 0);
             sample valueDelta = phases[i+1].valueInSamples() - phases[i].valueInSamples();
