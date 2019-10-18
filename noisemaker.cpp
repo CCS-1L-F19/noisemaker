@@ -11,17 +11,24 @@ using namespace std;
 
 namespace noisemaker {
     int sampleRate = 44100;
+    int maxFrequency = sampleRate / 2;
+    sample maxSample = numeric_limits<sample>::max();
+    sample minSample = numeric_limits<sample>::min();
 }
 
+// ABSTRACT CLASS: Signal
+
 sample Signal::step() {
+    // Signal should only be used as an abstract class and this function
+    // should never be called
     assert(false);
     return 0;
 }
 
 // CLASS: Constant
 
-Constant::Constant(int i) {
-    value = i;
+Constant::Constant(sample d) {
+    value = d;
 }
 
 sample Constant::step() {
@@ -31,34 +38,58 @@ sample Constant::step() {
 // CLASS: Oscillator
 
 template<class S1, class S2>
-Oscillator::Oscillator(S1 ampSig, S2 incSig, std::vector<double> wtab) {
+Oscillator::Oscillator(S1 ampSig, S2 freqSig, std::vector<double> wtab) {
+    assert(wtab.size() > 0);
     setFieldsToZero();
     waveTable = wtab;
     setAmpSignal(ampSig);
-    setIncrementSignal(incSig);
+    setFrequencySignal(freqSig);
+}
+
+Constant Oscillator::generateFrequencySignalWithValue(double v) {
+    double ratio = v / noisemaker::maxFrequency;
+    return ratio * noisemaker::maxSample;
+}
+
+double Oscillator::interpretFrequencySignalValue(sample v) {
+    double ratio = (double) v / noisemaker::maxSample;
+    return ratio * noisemaker::maxFrequency;
+}
+
+double Oscillator::getIncrementValueForFrequency(double f) {
+    double periodInSamples = noisemaker::sampleRate / f;
+    return waveTable.size() / periodInSamples;    
+}
+
+double Oscillator::getIncrementValueFromFrequencySignalValue(sample s) {
+    return getIncrementValueForFrequency(interpretFrequencySignalValue(s));
 }
 
 sample Oscillator::step() {
-    int a = amplitudeSignal->step();
-    int i = incrementSignal->step();
-    if (waveTableIndex >= waveTable.size()) {
-        waveTableIndex %= waveTable.size();
+    int amp = amplitudeSignal->step();
+    double inc = getIncrementValueFromFrequencySignalValue(frequencySignal->step());
+    while (waveTableIndex > waveTable.size()) {
+        waveTableIndex -= waveTable.size();
     }
-    sample result = a * waveTable[waveTableIndex];
-    waveTableIndex += i;
+    sample result = amp * waveTable[waveTableIndex];
+    waveTableIndex += inc;
     return result;
+}
+
+Oscillator Oscillator::sineWave(double frequency) {
+    return sineWave(frequency, Constant(noisemaker::maxSample));
 }
 
 template<class S>
 Oscillator Oscillator::sineWave(double frequency, S amplitudeSignal) {
     vector<double> waveTable = {};
-    int periodInSamples = (double) noisemaker::sampleRate / frequency;
-    for (int i= 0; i < periodInSamples; i++) {
-        double cyclesPerSample = (double) frequency / noisemaker::sampleRate;
-        double r = sin((cyclesPerSample) * 2 * M_PI * i);
+    for (int i = 0; i < defaultWaveTableSize; i++) {
+        double f = 1.0/defaultWaveTableSize;
+        double r = sin(f * 2 * M_PI * i);
         waveTable.push_back(r);
     }
-    return Oscillator(amplitudeSignal, Constant(1), waveTable);
+    Constant fSig = generateFrequencySignalWithValue(frequency);
+    return Oscillator(amplitudeSignal, fSig, waveTable);
 }
 template Oscillator Oscillator::sineWave<Constant>(double, Constant);
 template Oscillator Oscillator::sineWave<Oscillator>(double, Oscillator);
@@ -67,30 +98,31 @@ template Oscillator Oscillator::sineWave<LinearEnvelope>(double, LinearEnvelope)
 template <class T>
 void Oscillator::setAmpSignal(T s) {
     if (amplitudeSignal != NULL) { delete amplitudeSignal; }
-        bool b = std::is_base_of<Signal, T>::value;
-        assert(b);
-        amplitudeSignal = new T(s);
+    bool b = std::is_base_of<Signal, T>::value;
+    assert(b);
+    T *p = new T(s);
+    amplitudeSignal = p;
 }
 template void Oscillator::setAmpSignal<Constant>(Constant);
 template void Oscillator::setAmpSignal<Oscillator>(Oscillator);
 template void Oscillator::setAmpSignal<LinearEnvelope>(LinearEnvelope);
 
 template <class T>
-void Oscillator::setIncrementSignal(T s) {
-    if (incrementSignal != NULL) { delete incrementSignal; }
-        bool b = std::is_base_of<Signal, T>::value;
-        assert(b);
-        incrementSignal = new T(s);
+void Oscillator::setFrequencySignal(T s) {
+    if (frequencySignal != NULL) { delete frequencySignal; }
+    bool b = std::is_base_of<Signal, T>::value;
+    assert(b);
+    frequencySignal = new T(s);
 }
-template void Oscillator::setIncrementSignal<Constant>(Constant);
-template void Oscillator::setIncrementSignal<Oscillator>(Oscillator);
-template void Oscillator::setIncrementSignal<LinearEnvelope>(LinearEnvelope);
+template void Oscillator::setFrequencySignal<Constant>(Constant);
+template void Oscillator::setFrequencySignal<Oscillator>(Oscillator);
+template void Oscillator::setFrequencySignal<LinearEnvelope>(LinearEnvelope);
 
 void Oscillator::setFieldsToZero() {
     waveTable = vector<double>();
     waveTableIndex = 0;
     amplitudeSignal = NULL;
-    incrementSignal = NULL;
+    frequencySignal = NULL;
 }
 
 // CLASS: LinearEnvelope
@@ -118,8 +150,7 @@ bool LinearEnvelope::Phase::operator<(Phase p) {
 }
 
 sample LinearEnvelope::Phase::valueInSamples() {
-    int m = numeric_limits<sample>::max();
-    return value * m;
+    return value * noisemaker::maxSample;
 }
 
 sample LinearEnvelope::step() {

@@ -12,6 +12,9 @@ typedef int16_t sample;
 
 namespace noisemaker {
     extern int sampleRate;
+    extern int maxFrequency;
+    extern sample maxSample;
+    extern sample minSample;
 }
 
 class Signal {
@@ -21,10 +24,10 @@ class Signal {
 
 class Constant: public Signal {
     public:
-        Constant(int i);
+        Constant(sample i);
         sample step();
     private:
-        int value;
+        sample value;
 };
 
 class Oscillator: public Signal {
@@ -33,29 +36,38 @@ class Oscillator: public Signal {
 
         // premade Oscillators
         template<class S>
-            static Oscillator sineWave(double frequency, S amplitudeSignal = Constant(std::numeric_limits<sample>::max()));
+            static Oscillator sineWave(double frequency, S amplitudeSignal);
+        static Oscillator sineWave(double frequency);
 
         // constructors
         template<class S1, class S2>
-            Oscillator(S1 ampSig, S2 incSig, std::vector<double> wtab);
+            Oscillator(S1 ampSig, S2 freqSig, std::vector<double> wtab);
 
         // setters
         void setWaveTable(std::vector<double>);
         template <class T>
             void setAmpSignal(T s);
         template <class T>
-            void setIncrementSignal(T s);
+            void setFrequencySignal(T s);
+        
+        double getIncrementValueForFrequency(double f);
+        double getIncrementValueFromFrequencySignalValue(sample s);
+        static Constant generateFrequencySignalWithValue(double v);
+        static double interpretFrequencySignalValue(sample v);
 
         Signal *amplitudeSignal;
-        Signal *incrementSignal;
+        Signal *frequencySignal;
+
+        static const int defaultWaveTableSize = 1024;
     private:
         std::vector<double> waveTable;
-        int waveTableIndex;
+        double waveTableIndex;
         void setFieldsToZero();
  };
 
 class LinearEnvelope: public Signal {
     public:
+        sample step();
         struct Phase {
             double value;
             double time;
@@ -64,7 +76,6 @@ class LinearEnvelope: public Signal {
             bool operator>(Phase p);
             bool operator<(Phase p);
         };
-        sample step();
         LinearEnvelope();
         LinearEnvelope(std::vector<Phase> phasev);
         void setPhases(std::vector<Phase> phasev);

@@ -12,8 +12,9 @@ int main() {
   int numSamples = (int) floor(durationInSeconds * noisemaker::sampleRate);
  
   sample samples[numSamples];
-  LinearEnvelope e = LinearEnvelope({{0,0}, {1,.2}, {.1,.5}, {.05,3.5}, {0,4}});
-  Oscillator o = Oscillator::sineWave(440, e);
+  // LinearEnvelope e = LinearEnvelope({{0,0}, {1,.2}, {.1,.5}, {.05,3.5}, {0,4}});
+  // Oscillator fo = Oscillator::sineWave(1, );
+  Oscillator o = Oscillator::sineWave(440.0, Constant(noisemaker::maxSample));
 
   for (int i = 0; i < numSamples; i++) {
     samples[i] = o.step();
