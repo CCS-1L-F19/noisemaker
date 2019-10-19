@@ -37,7 +37,9 @@ class Oscillator: public Signal {
         // premade Oscillators
         template<class S>
             static Oscillator sineWave(double frequency, S amplitudeSignal);
-        static Oscillator sineWave(double frequency);
+        static Oscillator sineWave(double frequency = 440);
+
+        // TODO: make deepcopy constructor.
 
         // constructors
         template<class S1, class S2>
