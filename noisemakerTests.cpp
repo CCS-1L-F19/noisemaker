@@ -14,10 +14,22 @@ int main() {
   sample samples[numSamples];
   // LinearEnvelope e = LinearEnvelope({{0,0}, {1,.2}, {.1,.5}, {.05,3.5}, {0,4}});
 
-  // THIS IS A HELICOPTER
-  // Oscillator fo = Oscillator::sineWave(20, Constant(200));
+  // THIS IS A MOTOR
+  // with fo=10,200 you get some clipping. TODO: FIX
+  Oscillator fo = Oscillator::sineWave(20, Constant(200));
   Oscillator o = Oscillator::sineWave();
+  o.setFrequencySignal(fo);
+
+  // some kind of weird alien noise?
+  // Oscillator fo = Oscillator::sineWave(20, Constant(10));
+  // Oscillator o = Oscillator::sineWave();
   // o.setFrequencySignal(fo);
+
+  // idk, some other hum
+  // Oscillator fo = Oscillator::sineWave(20, Constant(50));
+  // Oscillator o = Oscillator::sineWave();
+  // o.setFrequencySignal(fo);
+
 
   for (int i = 0; i < numSamples; i++) {
     samples[i] = o.step();
