@@ -12,27 +12,12 @@ int main() {
   int numSamples = (int) floor(durationInSeconds * noisemaker::sampleRate);
  
   sample samples[numSamples];
-  // LinearEnvelope e = LinearEnvelope({{0,0}, {1,.2}, {.1,.5}, {.05,3.5}, {0,4}});
-
-  // THIS IS A MOTOR
-  // with fo=10,200 you get some clipping. TODO: FIX
-  Oscillator fo = Oscillator::sineWave(20, Constant(200));
-  Oscillator o = Oscillator::sineWave();
-  o.setFrequencySignal(fo);
-
-  // some kind of weird alien noise?
-  // Oscillator fo = Oscillator::sineWave(20, Constant(10));
-  // Oscillator o = Oscillator::sineWave();
-  // o.setFrequencySignal(fo);
-
-  // idk, some other hum
-  // Oscillator fo = Oscillator::sineWave(20, Constant(50));
-  // Oscillator o = Oscillator::sineWave();
-  // o.setFrequencySignal(fo);
-
+  Constant c(noisemaker::maxSample*.5);
+  Oscillator o = Oscillator::sineWave(440);
+  Adder a = Adder({{.5, o}, {.5, c}});
 
   for (int i = 0; i < numSamples; i++) {
-    samples[i] = o.step();
+    samples[i] = a.step();
   }
 
   writeWavFile(fopen("test.wav", "w"), samples, numSamples, noisemaker::sampleRate);

@@ -86,6 +86,21 @@ class LinearEnvelope: public Signal {
         std::vector<Phase> phases;
 };
 
-class Adder {};
+class Adder : public Signal {
+public:
+    sample step();
+    struct WeightedInputSignal {
+    public:
+        template<typename S>
+        WeightedInputSignal(S signal, double weight);
+        template<typename S>
+        void setSignal(S signal);
+        double weight;
+        Signal *signal;
+    };
+    Adder(std::vector<WeightedInputSignal>);
+private:
+    std::vector<WeightedInputSignal> weightedSignals;
+};
 
 class Multiplier {};
