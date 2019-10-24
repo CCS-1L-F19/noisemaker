@@ -91,12 +91,12 @@ public:
     sample step();
     struct WeightedInputSignal {
     public:
+        double weight;
+        Signal *signal;
         template<typename S>
         WeightedInputSignal(S signal, double weight);
         template<typename S>
         void setSignal(S signal);
-        double weight;
-        Signal *signal;
     };
     Adder(std::vector<WeightedInputSignal>);
 private:

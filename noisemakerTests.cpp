@@ -14,7 +14,11 @@ int main() {
   sample samples[numSamples];
   Constant c(noisemaker::maxSample*.5);
   Oscillator o = Oscillator::sineWave(440);
-  Adder a = Adder({{.5, o}, {.5, c}});
+  Adder::WeightedInputSignal s1;
+  s1.setSignal()
+  // TRYING TO MAKE AN ADDER
+  vector<Adder::WeightedInputSignal> sigs = {{.5, o}, {.5, c}};
+  Adder a = Adder(sigs);
 
   for (int i = 0; i < numSamples; i++) {
     samples[i] = a.step();
