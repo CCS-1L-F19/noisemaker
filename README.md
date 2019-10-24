@@ -1,4 +1,4 @@
-Noismaker is a digital audio synthesizer library. Right now, the user designs a sound and that sound can be written to a wav file.
+Noisemaker is a digital audio synthesizer library. Right now, the user designs a sound and that sound can be written to a wav file.
 
 # Installation
 
