@@ -1,4 +1,5 @@
 #include "noisemaker.h"
+#include "linearEnvelope.h"
 #include <cstring>
 #include <cstdlib>
 #include <cmath>

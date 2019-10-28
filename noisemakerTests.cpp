@@ -3,6 +3,9 @@
 #include <vector>
 #include "noisemaker.h"
 #include "fileFuncs.h"
+#include "adder.h"
+#include "oscillator.h"
+#include "constant.h"
 
 using namespace std;
 
@@ -12,14 +15,12 @@ int main() {
   int numSamples = (int) floor(durationInSeconds * noisemaker::sampleRate);
  
   sample samples[numSamples];
+
   Constant c(noisemaker::maxSample*.5);
   Oscillator o = Oscillator::sineWave(440);
-  Adder::WeightedInputSignal s1;
-  s1.setSignal()
-  // TRYING TO MAKE AN ADDER
-  vector<Adder::WeightedInputSignal> sigs = {{.5, o}, {.5, c}};
-  Adder a = Adder(sigs);
-
+  #define WIS Adder::WeightedInputSignal
+  Adder a = Adder({WIS(c, .5), WIS(o, .5)});
+  #undef WIS
   for (int i = 0; i < numSamples; i++) {
     samples[i] = a.step();
   }

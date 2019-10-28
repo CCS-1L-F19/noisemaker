@@ -1,9 +1,10 @@
-#include "noisemaker.h"
+#pragma once
+
+#include "oscillator.h"
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
 #include <cassert>
-#include <limits>
 #include <algorithm>
 #include <vector>
 #include <type_traits>
@@ -63,9 +64,6 @@ Oscillator Oscillator::sineWave(double frequency, S amplitudeSignal) {
     Constant fSig = generateFrequencySignalWithValue(frequency);
     return Oscillator(amplitudeSignal, fSig, waveTable);
 }
-template Oscillator Oscillator::sineWave<Constant>(double, Constant);
-template Oscillator Oscillator::sineWave<Oscillator>(double, Oscillator);
-template Oscillator Oscillator::sineWave<LinearEnvelope>(double, LinearEnvelope);
 
 template <class T>
 void Oscillator::setAmpSignal(T s) {
@@ -75,9 +73,6 @@ void Oscillator::setAmpSignal(T s) {
     T *p = new T(s);
     amplitudeSignal = p;
 }
-template void Oscillator::setAmpSignal<Constant>(Constant);
-template void Oscillator::setAmpSignal<Oscillator>(Oscillator);
-template void Oscillator::setAmpSignal<LinearEnvelope>(LinearEnvelope);
 
 template <class T>
 void Oscillator::setFrequencySignal(T s) {
@@ -86,9 +81,6 @@ void Oscillator::setFrequencySignal(T s) {
     assert(b);
     frequencySignal = new T(s);
 }
-template void Oscillator::setFrequencySignal<Constant>(Constant);
-template void Oscillator::setFrequencySignal<Oscillator>(Oscillator);
-template void Oscillator::setFrequencySignal<LinearEnvelope>(LinearEnvelope);
 
 void Oscillator::setFieldsToZero() {
     waveTable = vector<double>();

@@ -7,14 +7,13 @@ using namespace std;
 
 template<typename S>
 void Adder::WeightedInputSignal::setSignal(S signal) {
-    if (!signal) { delete signal; }
-    signal = new S(signal);
+    if (!this->signal) { delete this->signal; }
+    this->signal = new S(signal);
 }
 
 template<typename S>
-Adder::WeightedInputSignal::WeightedInputSignal(S signal, double weight) {
+Adder::WeightedInputSignal::WeightedInputSignal(S signal, double weight) : weight(weight) {
     setSignal(signal);
-    weight = w;
 }
 
 Adder::Adder(vector<WeightedInputSignal> ws) {

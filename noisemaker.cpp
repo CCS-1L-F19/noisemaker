@@ -1,6 +1,4 @@
 #include "noisemaker.h"
-#include "oscillator.cpp"
-#include "linearEnvelope.cpp"
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
@@ -8,7 +6,6 @@
 #include <limits>
 #include <algorithm>
 #include <vector>
-#include <type_traits>
 using namespace std;
 
 namespace noisemaker {
@@ -23,12 +20,4 @@ sample Signal::step() {
     // should never be called
     assert(false);
     return 0;
-}
-
-Constant::Constant(sample d) {
-    value = d;
-}
-
-sample Constant::step() {
-    return value;
 }
