@@ -16,18 +16,21 @@ Adder::WeightedInputSignal::WeightedInputSignal(S signal, double weight) : weigh
     setSignal(signal);
 }
 
-Adder::Adder(vector<WeightedInputSignal> ws) {
+Adder::Adder(vector<WeightedInputSignal> ws, bool safe) {
     double sum = 0;
     for (WeightedInputSignal s: ws) {
         sum += s.weight;
     }
-    assert(sum <= 1);
+    if (safe)
+        assert(sum <= 1);
     weightedSignals = ws;
 }
 
 sample Adder::step() {
     double r = 0;
     for (WeightedInputSignal s : weightedSignals) {
-        r += s.weight * s.signal->step(); 
+        sample v = s.signal->step();
+        r += s.weight * v;
     }
+    return r;
 }

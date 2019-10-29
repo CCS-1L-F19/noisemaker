@@ -15,7 +15,7 @@ public:
         template<typename S>
         void setSignal(S signal);
     };
-    Adder(std::vector<WeightedInputSignal>);
+    Adder(std::vector<WeightedInputSignal>, bool safe = true);
 private:
     std::vector<WeightedInputSignal> weightedSignals;
 };

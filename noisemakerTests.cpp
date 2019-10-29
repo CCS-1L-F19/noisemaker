@@ -17,12 +17,16 @@ int main() {
   sample samples[numSamples];
 
   Constant c(noisemaker::maxSample*.5);
-  Oscillator o = Oscillator::sineWave(440);
+  Oscillator o = Oscillator::sineWave(3);
   #define WIS Adder::WeightedInputSignal
-  Adder a = Adder({WIS(c, .5), WIS(o, .5)});
+  Adder a = Adder({WIS(c, 1), WIS(o, .5)}, false);
   #undef WIS
+
+  Oscillator realboi = Oscillator::sineWave(440);
+  realboi.setFrequencySignal(a);
+
   for (int i = 0; i < numSamples; i++) {
-    samples[i] = a.step();
+    samples[i] = realboi.step();
   }
 
   writeWavFile(fopen("test.wav", "w"), samples, numSamples, noisemaker::sampleRate);
