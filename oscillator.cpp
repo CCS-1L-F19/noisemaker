@@ -19,7 +19,9 @@ Oscillator::Oscillator(S1 ampSig, S2 freqSig, std::vector<double> wtab) {
     setFrequencySignal(freqSig);
 }
 
-Constant Oscillator::generateFrequencySignalWithValue(double v) {
+Oscillator::Oscillator() : amplitudeSignal(NULL), frequencySignal(NULL), waveTableIndex(0) {}
+
+sample Oscillator::generateFrequencySignalWithValue(double v) {
     double ratio = v / noisemaker::maxFrequency;
     return ratio * noisemaker::maxSample;
 }
@@ -49,21 +51,6 @@ sample Oscillator::step() {
     return result;
 }
 
-Oscillator Oscillator::sineWave(double frequency) {
-    return sineWave(frequency, Constant(noisemaker::maxSample));
-}
-
-template<class S>
-Oscillator Oscillator::sineWave(double frequency, S amplitudeSignal) {
-    vector<double> waveTable = {};
-    for (int i = 0; i < defaultWaveTableSize; i++) {
-        double f = 1.0/defaultWaveTableSize;
-        double r = sin(f * 2 * M_PI * i);
-        waveTable.push_back(r);
-    }
-    Constant fSig = generateFrequencySignalWithValue(frequency);
-    return Oscillator(amplitudeSignal, fSig, waveTable);
-}
 
 template <class T>
 void Oscillator::setAmpSignal(T s) {
@@ -87,4 +74,21 @@ void Oscillator::setFieldsToZero() {
     waveTableIndex = 0;
     amplitudeSignal = NULL;
     frequencySignal = NULL;
+}
+
+Oscillator formSineWave(double frequency) {
+    return formSineWave(frequency, Constant(noisemaker::maxSample));
+}
+
+template<class S>
+Oscillator formSineWave(double frequency, S amplitudeSignal) {
+    vector<double> waveTable = {};
+    for (int i = 0; i < Oscillator::defaultWaveTableSize; i++) {
+        double f = 1.0/Oscillator::defaultWaveTableSize;
+        double r = sin(f * 2 * M_PI * i);
+        waveTable.push_back(r);
+    }
+    Constant fSig = Oscillator::generateFrequencySignalWithValue(frequency);
+    Oscillator result = Oscillator(amplitudeSignal, fSig, waveTable);
+    return result;
 }

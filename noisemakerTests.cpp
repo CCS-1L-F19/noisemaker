@@ -16,17 +16,22 @@ int main() {
  
   sample samples[numSamples];
 
-  Constant c(noisemaker::maxSample*.5);
-  Oscillator o = Oscillator::sineWave(3);
+  Oscillator output = formSineWave();
+  
+  Oscillator vibratoDelta = formSineWave(30);
+  // need to multiply vibratoDelta by something to make it a lot smaller
+  sample d = output.generateFrequencySignalWithValue(440);
+  Constant vibratoBase(d);
   #define WIS Adder::WeightedInputSignal
-  Adder a = Adder({WIS(c, 1), WIS(o, .5)}, false);
+  Adder vibratoFrequency = Adder({WIS(vibratoBase, 1), WIS(vibratoDelta, (d * 0.3) / noisemaker::maxSample)}, false);
+  // Adder vibratoFrequency = Adder({WIS(vibratoBase, 1)}, false);
   #undef WIS
 
-  Oscillator realboi = Oscillator::sineWave(440);
-  realboi.setFrequencySignal(a);
+  output.setFrequencySignal(vibratoFrequency);
+  output.setAmpSignal(Constant(noisemaker::maxSample));
 
   for (int i = 0; i < numSamples; i++) {
-    samples[i] = realboi.step();
+    samples[i] = output.step();
   }
 
   writeWavFile(fopen("test.wav", "w"), samples, numSamples, noisemaker::sampleRate);

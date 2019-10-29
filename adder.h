@@ -7,7 +7,6 @@ class Adder : public Signal {
 public:
     sample step();
     struct WeightedInputSignal {
-    public:
         double weight;
         Signal *signal;
         template<typename S>

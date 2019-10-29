@@ -9,15 +9,13 @@ class Oscillator: public Signal {
         sample step();
 
         // premade Oscillators
-        template<class S>
-            static Oscillator sineWave(double frequency, S amplitudeSignal);
-        static Oscillator sineWave(double frequency = 440);
 
         // TODO: make deepcopy constructor.
 
         // constructors
         template<class S1, class S2>
             Oscillator(S1 ampSig, S2 freqSig, std::vector<double> wtab);
+        Oscillator();
 
         // setters
         void setWaveTable(std::vector<double>);
@@ -28,7 +26,7 @@ class Oscillator: public Signal {
         
         double getIncrementValueForFrequency(double f);
         double getIncrementValueFromFrequencySignalValue(sample s);
-        static Constant generateFrequencySignalWithValue(double v);
+        static sample generateFrequencySignalWithValue(double v);
         static double interpretFrequencySignalValue(sample v);
 
         Signal *amplitudeSignal;
@@ -40,5 +38,9 @@ class Oscillator: public Signal {
         double waveTableIndex;
         void setFieldsToZero();
  };
+
+template<class S>
+    static Oscillator formSineWave(double frequency, S amplitudeSignal);
+static Oscillator formSineWave(double frequency = 0);
 
 #include "oscillator.cpp"
