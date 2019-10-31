@@ -34,13 +34,13 @@ int main() {
 
   // CHORD DEMO
 
-  // Oscillator root = formSineWave(440);
-  // Oscillator M3 = formSineWave(660);
-  // Oscillator P5 = formSineWave(660);
-  // Oscillator M7 = formSineWave(660);
-  // #define WIS Adder::WeightedInputSignal
-  // Adder output({WIS(root, .4), WIS(M3, .1), WIS(P5, .2), WIS(M7, .3)});
-  // #define WIS Adder::WeightedInputSignal
+  Oscillator root = formSineWave(440);
+  Oscillator M3 = formSineWave(523);
+  Oscillator P5 = formSineWave(660);
+  Oscillator M7 = formSineWave(784);
+  #define WIS Adder::WeightedInputSignal
+  Adder output({WIS(root, .4), WIS(M3, .1), WIS(P5, .2), WIS(M7, .1)});
+  #undef WIS
 
   for (int i = 0; i < numSamples; i++) {
     samples[i] = output.step();
