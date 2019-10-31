@@ -32,7 +32,7 @@ class Oscillator: public Signal {
         Signal *amplitudeSignal;
         Signal *frequencySignal;
 
-        static const int defaultWaveTableSize = 1024;
+        static const int defaultWaveTableSize = 1000000;
     private:
         std::vector<double> waveTable;
         double waveTableIndex;
