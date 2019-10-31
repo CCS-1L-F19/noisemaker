@@ -46,7 +46,10 @@ sample Oscillator::step() {
     while (waveTableIndex > waveTable.size()) {
         waveTableIndex -= waveTable.size();
     }
-    sample result = amp * waveTable[waveTableIndex];
+    double junk;
+    double weightedLeftSample = modf(waveTableIndex, &junk) * waveTable[waveTableIndex];
+    double weightedRightSample = (1-modf(waveTableIndex, &junk)) * waveTable[(int)(waveTableIndex + 1) % waveTable.size()];
+    sample result = amp * (weightedLeftSample + weightedRightSample);
     waveTableIndex += inc;
     return result;
 }
