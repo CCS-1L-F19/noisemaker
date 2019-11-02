@@ -4,19 +4,28 @@
 
 typedef int16_t sample;
 
-class Signal {
+namespace noise {
+    int sampleRate = 11025;
+    class Signal;
+    class Noisemaker;
+    class Oscillator;
+    class Adder;
+    class Multiplier;
+}
+
+class noise::Signal {
     public:
         sample samples[10000];
         int currentSampleIndex;
         sample currentSample;
 };
 
-class Noisemaker {
+class noise::Noisemaker {
     public:
         virtual sample getSampleAtTime(int t) = 0;
 };
 
-class Oscillator: Noisemaker {
+class noise::Oscillator: noise::Noisemaker {
     public:
         sample getSampleAtTime(int t);
 
@@ -24,9 +33,10 @@ class Oscillator: Noisemaker {
         void setInputAmplitude(int i);
         void setSampleIncrement(Signal s);
         void setSampleIncrement(int i);
-        void setWaveform(int a[], int size);
+        void setWaveform(sample samples[], int size);
+        void setWaveformUsingFunction(sample (*f)(int), int sampleNum);
 };
 
-class Adder {};
+class noise::Adder {};
 
-class Multiplier {};
+class noise::Multiplier {};
