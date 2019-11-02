@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 #include "noisemaker.h"
 #include "fileFuncs.h"
 
@@ -11,13 +12,26 @@ int main() {
   int numSamples = (int) floor(durationInSeconds * sampleRate);
 
   const int frequency = 440;
+  const double periodInSamples = sampleRate / frequency;
+
   
   // Write the samples to the file
   
   sample samples[numSamples];
-  for (int i=0; i<numSamples; i++) {
-      samples[i] = INT16_MAX * sin(frequency * 2 * M_PI * (i / (double) sampleRate));
+  vector<double> wt;
+  for (int i= 0; i < periodInSamples; i++) {
+      double cyclesPerSample = (double) frequency / sampleRate;
+      double r = sin((cyclesPerSample) * 2 * M_PI * i);
+      wt.push_back(r);
   }
+
+  Oscillator amp = Oscillator(Constant(INT16_MAX), wt); 
+  Oscillator o = Oscillator(amp, wt);
+
+  for (int i = 0; i < numSamples; i++) {
+    samples[i] = amp.step();
+  }
+
   writeWavFile(fopen("test.wav", "w"), samples, numSamples, sampleRate);
 
   cout << endl;

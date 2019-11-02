@@ -32,7 +32,8 @@
             "group": {
                 "isDefault": true,
                 "kind": "build"
-            }
+            },
+            "problemMatcher": []
         }
     ],
     "version": "2.0.0"

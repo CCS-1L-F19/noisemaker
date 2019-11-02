@@ -1,16 +1,56 @@
 #include "noisemaker.h"
 #include <cstring>
+#include <cstdlib>
+#include <cassert>
+#include <vector>
+#include <type_traits>
 using namespace std;
 
-sample Oscillator::getSampleAtTime(int t) {
-    return waveTable[(t * sampleIncrement) % (waveTableLength)];
+namespace noisemaker {
+    int sampleRate = 44100;
 }
 
-void Oscillator::setWaveform(sample samples[], int size) {
-    if (waveTable != NULL) { delete waveTable; }
+sample Signal::step() {
+    return 0;
+}
 
-    waveTable = new sample[size];
-    memcpy(waveTable, samples, size);
+Constant::Constant(int i) {
+    value = i;
+}
 
-    waveTableLength = size;
+sample Constant::step() {
+    return value;
+}
+
+sample Oscillator::step() {
+    int a = ampSignal->step();
+    // int i = incrementSignal->step();
+    int i = 1;
+    if (waveTableIndex >= waveTable.size()) {
+        waveTableIndex %= waveTable.size();
+    }
+    sample result = a * waveTable[waveTableIndex];
+    waveTableIndex += i;
+    return result;
+}
+
+void Oscillator::setWaveTableUsingFunction(sample (*f)(int), double waveDurationInSeconds) {
+    for (int i = 0; i < waveDurationInSeconds * noisemaker::sampleRate; i++) {
+        waveTable.clear();
+        waveTable.push_back(f(i));
+    } 
+    // WORKING HERE
+// 
+//     
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
 }
