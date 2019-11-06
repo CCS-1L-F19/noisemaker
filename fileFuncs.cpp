@@ -1,10 +1,10 @@
 #include <cstdio>
 #include <cstdint>
 #include <cassert>
+#include <iostream>
 #include "noisemaker.h"
 
-void writeWavHeaderFile(FILE *f, sample *inSamples, int numSamples, int sampleRateIn) {
-
+void writeWavFile(FILE *f, sample *inSamples, int numSamples, int sampleRateIn) {
     // Riff File Header
     const char fileId[] = "RIFF";
     // fileSize is computed later
