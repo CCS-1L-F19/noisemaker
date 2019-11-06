@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cassert>
 #include <limits>
+#include <algorithm>
 #include <vector>
 #include <type_traits>
 using namespace std;
@@ -32,6 +33,14 @@ sample Constant::step() {
 
 // CLASS: Oscillator
 
+template<class S1, class S2>
+Oscillator::Oscillator(S1 ampSig, S2 incSig, std::vector<double> wtab) {
+    setFieldsToZero();
+    waveTable = wtab;
+    setAmpSignal(ampSig);
+    setIncrementSignal(incSig);
+}
+
 sample Oscillator::step() {
     int a = amplitudeSignal->step();
     int i = incrementSignal->step();
@@ -43,7 +52,8 @@ sample Oscillator::step() {
     return result;
 }
 
-Oscillator Oscillator::sineWave(int frequency, Signal amplitudeSignal) {
+template<class S>
+Oscillator Oscillator::sineWave(double frequency, S amplitudeSignal) {
     vector<double> waveTable = {};
     double periodInSamples = (double) noisemaker::sampleRate / frequency;
     for (int i= 0; i < periodInSamples; i++) {
@@ -53,6 +63,31 @@ Oscillator Oscillator::sineWave(int frequency, Signal amplitudeSignal) {
     }
     return Oscillator(amplitudeSignal, Constant(1), waveTable);
 }
+template Oscillator Oscillator::sineWave<Constant>(double, Constant);
+template Oscillator Oscillator::sineWave<Oscillator>(double, Oscillator);
+template Oscillator Oscillator::sineWave<LinearEnvelope>(double, LinearEnvelope);
+
+template <class T>
+void Oscillator::setAmpSignal(T s) {
+    if (amplitudeSignal != NULL) { delete amplitudeSignal; }
+        bool b = std::is_base_of<Signal, T>::value;
+        assert(b);
+        amplitudeSignal = new T(s);
+}
+template void Oscillator::setAmpSignal<Constant>(Constant);
+template void Oscillator::setAmpSignal<Oscillator>(Oscillator);
+template void Oscillator::setAmpSignal<LinearEnvelope>(LinearEnvelope);
+
+template <class T>
+void Oscillator::setIncrementSignal(T s) {
+    if (incrementSignal != NULL) { delete incrementSignal; }
+        bool b = std::is_base_of<Signal, T>::value;
+        assert(b);
+        incrementSignal = new T(s);
+}
+template void Oscillator::setIncrementSignal<Constant>(Constant);
+template void Oscillator::setIncrementSignal<Oscillator>(Oscillator);
+template void Oscillator::setIncrementSignal<LinearEnvelope>(LinearEnvelope);
 
 void Oscillator::setFieldsToZero() {
     waveTable = vector<double>();

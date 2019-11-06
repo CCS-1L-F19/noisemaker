@@ -47,30 +47,21 @@ class Oscillator: public Signal {
     public:
         sample step();
 
-        static Oscillator sineWave(int frequency, Signal amplitudeSignal = Constant(std::numeric_limits<sample>::max()));
+        // premade Oscillators
+        template<class S>
+            static Oscillator sineWave(double frequency, S amplitudeSignal = Constant(std::numeric_limits<sample>::max()));
 
-        Oscillator(int amp, std::vector<double> wtab);
-        template<class S1, class S2> Oscillator(S1 ampSig, S2 incSig, std::vector<double> wtab) {
-            setFieldsToZero();
-            waveTable = wtab;
-            setAmpSignal(ampSig);
-            setIncrementSignal(incSig);
-        }
+        // constructors
+        template<class S1, class S2>
+            Oscillator(S1 ampSig, S2 incSig, std::vector<double> wtab);
 
+        // setters
         void setWaveTable(std::vector<double>);
-        template <class T> void setAmpSignal(T s) {
-            if (amplitudeSignal != NULL) { delete amplitudeSignal; }
-            bool b = std::is_base_of<Signal, T>::value;
-            assert(b);
-            amplitudeSignal = new T(s);
-        }
+        template <class T>
+            void setAmpSignal(T s);
+        template <class T>
+            void setIncrementSignal(T s);
 
-        template <class T> void setIncrementSignal(T s) {
-            if (incrementSignal != NULL) { delete incrementSignal; }
-            bool b = std::is_base_of<Signal, T>::value;
-            assert(b);
-            incrementSignal = new T(s);
-        }
         Signal *amplitudeSignal;
         Signal *incrementSignal;
     private:
