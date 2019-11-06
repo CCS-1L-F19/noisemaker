@@ -5,8 +5,9 @@
 
 #include <vector>
 #include <cassert>
+#include <cinttypes>
 
-typedef signed short sample;
+typedef int16_t sample;
 
 namespace noisemaker {
     extern int sampleRate;
@@ -25,17 +26,18 @@ class Constant: public Signal {
         int value;
 };
 
-class Envelope: public Signal {
+class LinearEnvelope: public Signal {
     public:
-        Envelope();
-        Envelope(int aDur, sample aSam, int dDur, sample dSam, int sDur, sample sSam, int rDur, sample rSam);
-
-        void setAttack(int duration, sample amplitude);
-        void setDecay(int duration, sample amplitude);
-        void setSustain(int duration, sample amplitude);
-        void setRelease(int duration, sample amplitude);
-
-        sample getSampleAtTime(int t);
+        sample step();
+        LinearEnvelope();
+        LinearEnvelope(sample aSam, int aDur, sample dSam, int dDur, sample sSam, int sDur, sample rSam, int rDur);
+    private:
+        int samplesElapsed;
+        struct Phase {
+            sample value;
+            int duration;
+        };
+        Phase phases[];
 };
 
 class Oscillator: public Signal {
@@ -44,29 +46,35 @@ class Oscillator: public Signal {
 
         static Oscillator sineWave(int frequency);
 
-        // Oscillator(int amp, sample (*f)(int), int duration);
         Oscillator(int amp, std::vector<double> wtab);
-        template<class T> Oscillator(T ampSig, std::vector<double> wtab) {
+        template<class S1, class S2> Oscillator(S1 ampSig, S2 incSig, std::vector<double> wtab) {
+            setFieldsToZero();
             waveTable = wtab;
-            waveTableIndex = 0;
-            ampSignal = NULL;
             setAmpSignal(ampSig);
+            setIncrementSignal(incSig);
         }
 
-        void setWaveTableUsingFunction(sample (*f)(int), double waveDurationInSeconds);
         void setWaveTable(std::vector<double>);
         template <class T> void setAmpSignal(T s) {
-            // if (ampSignal != NULL) { delete ampSignal; }
+            if (amplitudeSignal != NULL) { delete amplitudeSignal; }
             bool b = std::is_base_of<Signal, T>::value;
-            // std::assert(b);
-            ampSignal = new T(s);
+            assert(b);
+            amplitudeSignal = new T(s);
         }
-        Signal *ampSignal;
+
+        template <class T> void setIncrementSignal(T s) {
+            if (incrementSignal != NULL) { delete incrementSignal; }
+            bool b = std::is_base_of<Signal, T>::value;
+            assert(b);
+            incrementSignal = new T(s);
+        }
+        Signal *amplitudeSignal;
         Signal *incrementSignal;
     private:
         std::vector<double> waveTable;
         int waveTableIndex;
-};
+        void setFieldsToZero();
+ };
 
 class Adder {};
 
