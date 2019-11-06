@@ -15,6 +15,23 @@
                 "isDefault": true,
                 "kind": "build"
             }
+        },
+        {
+            "label": "build noisemakerTests",
+            "type": "shell",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-g",
+                "-o",
+                "noisemakerTests",
+                "fileFuncs.cpp",
+                "noisemakerTests.cpp",
+                "noisemaker.cpp"
+            ],
+            "group": {
+                "isDefault": true,
+                "kind": "build"
+            }
         }
     ],
     "version": "2.0.0"
