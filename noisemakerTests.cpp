@@ -23,7 +23,7 @@ int main() {
   //     double r = sin((cyclesPerSample) * 2 * M_PI * i);
   //     wt.push_back(r);
   // }
-  LinearEnvelope e = LinearEnvelope({{0,0}, {10000,1}});
+  LinearEnvelope e = LinearEnvelope({{0,0}, {.5,1}, {.2,3}, {.9,3.5}, {0,4}});
   Oscillator o = Oscillator::sineWave(440, e);
   // Oscillator o = Oscillator(Oscillator::sineWave(2), Constant(1), wt);
 

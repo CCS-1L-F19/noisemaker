@@ -101,32 +101,44 @@ void Oscillator::setFieldsToZero() {
 
 LinearEnvelope::LinearEnvelope(vector<Phase> phasev) {
     samplesElapsed = 0;
-    setPhases(phasev); // also sets waveTable
+    setPhases(phasev);
 }
 
 void LinearEnvelope::setPhases(vector<Phase> phasev) {
     phases = phasev;
-    // sort phases TODO
+    sort(phases.begin(), phases.end());
 }
 
 int LinearEnvelope::Phase::timeInSamples() {
     return time * noisemaker::sampleRate;
 }
 
+bool LinearEnvelope::Phase::operator>(Phase p) {
+    return value > p.value;
+}
+
+bool LinearEnvelope::Phase::operator<(Phase p) {
+    return value < p.value;
+}
+
+sample LinearEnvelope::Phase::valueInSamples() {
+    return value * numeric_limits<sample>::max();
+}
+
 sample LinearEnvelope::step() {
     for (int i = 0; i < phases.size() - 1; i++) {
         if (samplesElapsed >= phases.back().timeInSamples()) {
                 samplesElapsed++;
-                return phases.back().value;
+                return phases.back().valueInSamples();
         }
         if (samplesElapsed >= phases[i].timeInSamples()) {
             int phaseDurationInSamples = (phases[i+1].timeInSamples() - phases[i].timeInSamples());
             assert(phaseDurationInSamples > 0);
-            sample valueDelta = phases[i+1].value - phases[i].value;
+            sample valueDelta = phases[i+1].valueInSamples() - phases[i].valueInSamples();
             double slope = (double) valueDelta / phaseDurationInSamples;
             int distanceIntoPhase = samplesElapsed - phases[i].timeInSamples(); 
             samplesElapsed++;
-            return distanceIntoPhase * slope + phases[i].value;
+            return distanceIntoPhase * slope + phases[i].valueInSamples();
         }
     }
 }

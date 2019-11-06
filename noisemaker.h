@@ -30,9 +30,12 @@ class Constant: public Signal {
 class LinearEnvelope: public Signal {
     public:
         struct Phase {
-            sample value;
-            int time;
+            double value;
+            double time;
             int timeInSamples();
+            sample valueInSamples();
+            bool operator>(Phase p);
+            bool operator<(Phase p);
         };
         sample step();
         LinearEnvelope();
