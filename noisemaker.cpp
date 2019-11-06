@@ -1,17 +1,16 @@
 #include "noisemaker.h"
-#include <containers>
-#include <string>
+#include <cstring>
 using namespace std;
 
 sample Oscillator::getSampleAtTime(int t) {
-    return waveform[(t * sampleIncrement) % (waveTableLength)];
+    return waveTable[(t * sampleIncrement) % (waveTableLength)];
 }
 
 void Oscillator::setWaveform(sample samples[], int size) {
-    if (waveTable != NULL) { delete waveform; }
+    if (waveTable != NULL) { delete waveTable; }
 
-    waveform = new sample[size];
-    memcpy(waveform, samples, size);
+    waveTable = new sample[size];
+    memcpy(waveTable, samples, size);
 
     waveTableLength = size;
 }
