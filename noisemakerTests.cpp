@@ -6,6 +6,7 @@
 #include "adder.h"
 #include "oscillator.h"
 #include "constant.h"
+#include "premadeSignals.h"
 
 using namespace std;
 
@@ -18,17 +19,7 @@ int main() {
 
   // VIBRATO DEMO:
 
-  Oscillator output = formSineWave();
-
-  Oscillator vibratoDelta = formSineWave(30);
-  // need to multiply vibratoDelta by something to make it a lot smaller
-  sample d = output.generateSampleThatProducesFrequency(440);
-  Constant vibratoBase(d);
-  Adder vibratoFrequency = Adder({{vibratoBase, 1}, {vibratoDelta, (d * 0.3) / noisemaker::maxSample}}, false);
-  // Adder vibratoFrequency = Adder({WIS(vibratoBase, 1)}, false);
-
-  output.setFrequencySignal(vibratoFrequency);
-  output.setAmpSignal(Constant(noisemaker::maxSample));
+  Oscillator output = formVibratoSineWave(440, 3, 110, Constant(noisemaker::maxSample));
 
   // CHORD DEMO
 

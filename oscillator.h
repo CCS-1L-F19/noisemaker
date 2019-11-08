@@ -39,8 +39,4 @@ class Oscillator: public Signal {
         void setFieldsToZero();
  };
 
-template<class S>
-    static Oscillator formSineWave(double frequency, S amplitudeSignal);
-static Oscillator formSineWave(double frequency = 0);
-
 #include "oscillator.cpp"
