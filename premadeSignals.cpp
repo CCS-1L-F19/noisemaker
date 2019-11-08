@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "oscillator.h"
+#include "adder.h"
 
 Oscillator formSineWave(double frequency) {
     return formSineWave(frequency, Constant(noisemaker::maxSample));
@@ -19,3 +20,17 @@ Oscillator formSineWave(double frequency, S amplitudeSignal) {
     return result;
 }
 
+
+template<class S>
+Oscillator formVibratoSineWave(double baseFrequency, double vibratoFrequency, double vibratoMagnitude, S ampSignal) {
+    Oscillator result = formSineWave(0, ampSignal);
+    result.setFrequencySignal(formVibratoFreqSignal(baseFrequency, vibratoFrequency, vibratoMagnitude));
+}
+
+Adder formVibratoFreqSignal(double baseFrequency, double vibratoFrequency, double vibratoMagnitude) {
+  sample base = Oscillator().generateSampleThatProducesFrequency(baseFrequency);
+  Constant vibratoBase(base);
+  sample vibratoDeltaAmplitude = Oscillator().generateSampleThatProducesFrequency(vibratoMagnitude);
+  Oscillator vibratoDelta = formSineWave(vibratoFrequency, Constant(vibratoDeltaAmplitude));
+  return Adder({{vibratoBase, 1}, {vibratoDelta, 1}}, false);
+}
