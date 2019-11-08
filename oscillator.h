@@ -25,9 +25,9 @@ class Oscillator: public Signal {
             void setFrequencySignal(T s);
         
         double getIncrementValueForFrequency(double f);
-        double getIncrementValueFromFrequencySignalValue(sample s);
-        static sample generateFrequencySignalWithValue(double v);
-        static double interpretFrequencySignalValue(sample v);
+        double getIncrementValueFromFrequencySample(sample s);
+        static sample generateSampleThatProducesFrequency(double v);
+        static double interpretFrequencySample(sample v);
 
         Signal *amplitudeSignal;
         Signal *frequencySignal;

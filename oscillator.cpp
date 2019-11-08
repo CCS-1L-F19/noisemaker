@@ -21,12 +21,12 @@ Oscillator::Oscillator(S1 ampSig, S2 freqSig, std::vector<double> wtab) {
 
 Oscillator::Oscillator() : amplitudeSignal(NULL), frequencySignal(NULL), waveTableIndex(0) {}
 
-sample Oscillator::generateFrequencySignalWithValue(double v) {
+sample Oscillator::generateSampleThatProducesFrequency(double v) {
     double ratio = v / noisemaker::maxFrequency;
     return ratio * noisemaker::maxSample;
 }
 
-double Oscillator::interpretFrequencySignalValue(sample v) {
+double Oscillator::interpretFrequencySample(sample v) {
     double ratio = (double) v / noisemaker::maxSample;
     return ratio * noisemaker::maxFrequency;
 }
@@ -36,13 +36,13 @@ double Oscillator::getIncrementValueForFrequency(double f) {
     return waveTable.size() / periodInSamples;    
 }
 
-double Oscillator::getIncrementValueFromFrequencySignalValue(sample s) {
-    return getIncrementValueForFrequency(interpretFrequencySignalValue(s));
+double Oscillator::getIncrementValueFromFrequencySample(sample s) {
+    return getIncrementValueForFrequency(interpretFrequencySample(s));
 }
 
 sample Oscillator::step() {
     int amp = amplitudeSignal->step();
-    double inc = getIncrementValueFromFrequencySignalValue(frequencySignal->step());
+    double inc = getIncrementValueFromFrequencySample(frequencySignal->step());
     while (waveTableIndex > waveTable.size()) {
         waveTableIndex -= waveTable.size();
     }
@@ -91,7 +91,7 @@ Oscillator formSineWave(double frequency, S amplitudeSignal) {
         double r = sin(f * 2 * M_PI * i);
         waveTable.push_back(r);
     }
-    Constant fSig = Oscillator::generateFrequencySignalWithValue(frequency);
+    Constant fSig = Oscillator::generateSampleThatProducesFrequency(frequency);
     Oscillator result = Oscillator(amplitudeSignal, fSig, waveTable);
     return result;
 }

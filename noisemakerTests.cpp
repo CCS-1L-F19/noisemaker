@@ -18,29 +18,29 @@ int main() {
 
   // VIBRATO DEMO:
 
-  // Oscillator output = formSineWave();
-  
-  // Oscillator vibratoDelta = formSineWave(30);
-  // // need to multiply vibratoDelta by something to make it a lot smaller
-  // sample d = output.generateFrequencySignalWithValue(440);
-  // Constant vibratoBase(d);
-  // #define WIS Adder::WeightedInputSignal
-  // Adder vibratoFrequency = Adder({WIS(vibratoBase, 1), WIS(vibratoDelta, (d * 0.3) / noisemaker::maxSample)}, false);
-  // // Adder vibratoFrequency = Adder({WIS(vibratoBase, 1)}, false);
-  // #undef WIS
+  Oscillator output = formSineWave();
 
-  // output.setFrequencySignal(vibratoFrequency);
-  // output.setAmpSignal(Constant(noisemaker::maxSample));
+  Oscillator vibratoDelta = formSineWave(30);
+  // need to multiply vibratoDelta by something to make it a lot smaller
+  sample d = output.generateSampleThatProducesFrequency(440);
+  Constant vibratoBase(d);
+  #define WIS Adder::WeightedInputSignal
+  Adder vibratoFrequency = Adder({WIS(vibratoBase, 1), WIS(vibratoDelta, (d * 0.3) / noisemaker::maxSample)}, false);
+  // Adder vibratoFrequency = Adder({WIS(vibratoBase, 1)}, false);
+  #undef WIS
+
+  output.setFrequencySignal(vibratoFrequency);
+  output.setAmpSignal(Constant(noisemaker::maxSample));
 
   // CHORD DEMO
 
-  Oscillator root = formSineWave(440);
-  Oscillator M3 = formSineWave(523);
-  Oscillator P5 = formSineWave(660);
-  Oscillator M7 = formSineWave(784);
-  #define WIS Adder::WeightedInputSignal
-  Adder output({WIS(root, .4), WIS(M3, .1), WIS(P5, .2), WIS(M7, .1)});
-  #undef WIS
+  // Oscillator root = formSineWave(440);
+  // Oscillator M3 = formSineWave(523);
+  // Oscillator P5 = formSineWave(660);
+  // Oscillator M7 = formSineWave(784);
+  // #define WIS Adder::WeightedInputSignal
+  // Adder output({WIS(root, .4), WIS(M3, .1), WIS(P5, .2), WIS(M7, .1)});
+  // #undef WIS
 
   for (int i = 0; i < numSamples; i++) {
     samples[i] = output.step();
