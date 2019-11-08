@@ -58,8 +58,7 @@ sample Oscillator::step() {
 template <class T>
 void Oscillator::setAmpSignal(T s) {
     if (amplitudeSignal != NULL) { delete amplitudeSignal; }
-    bool b = std::is_base_of<Signal, T>::value;
-    assert(b);
+    static_assert(is_base_of<Signal, T>::value, "setAmpSignal only accepts arguments of type Signal.");
     T *p = new T(s);
     amplitudeSignal = p;
 }
@@ -67,8 +66,7 @@ void Oscillator::setAmpSignal(T s) {
 template <class T>
 void Oscillator::setFrequencySignal(T s) {
     if (frequencySignal != NULL) { delete frequencySignal; }
-    bool b = std::is_base_of<Signal, T>::value;
-    assert(b);
+    static_assert(is_base_of<Signal, T>::value, "setFrequencySignal only accepts arguments of type Signal.");
     frequencySignal = new T(s);
 }
 
