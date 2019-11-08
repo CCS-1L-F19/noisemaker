@@ -24,10 +24,8 @@ int main() {
   // need to multiply vibratoDelta by something to make it a lot smaller
   sample d = output.generateSampleThatProducesFrequency(440);
   Constant vibratoBase(d);
-  #define WIS Adder::WeightedInputSignal
-  Adder vibratoFrequency = Adder({WIS(vibratoBase, 1), WIS(vibratoDelta, (d * 0.3) / noisemaker::maxSample)}, false);
+  Adder vibratoFrequency = Adder({{vibratoBase, 1}, {vibratoDelta, (d * 0.3) / noisemaker::maxSample}}, false);
   // Adder vibratoFrequency = Adder({WIS(vibratoBase, 1)}, false);
-  #undef WIS
 
   output.setFrequencySignal(vibratoFrequency);
   output.setAmpSignal(Constant(noisemaker::maxSample));

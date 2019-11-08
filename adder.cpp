@@ -12,9 +12,9 @@ void Adder::WeightedInputSignal::setSignal(S signal) {
 }
 
 template<typename S>
-Adder::WeightedInputSignal::WeightedInputSignal(S signal, double weight) : weight(weight) {
-    setSignal(signal);
-}
+Adder::WeightedInputSignal::WeightedInputSignal(S signal, double weight) :
+                                                signal(new S(signal)), weight(weight) {}
+
 
 Adder::Adder(vector<WeightedInputSignal> ws, bool safe) {
     double sum = 0;
