@@ -12,7 +12,8 @@
                 "noisemakerTests",
                 "tests/noisemakerTests.cpp",
                 "src/fileFuncs.cpp",
-                "src/noisemaker.cpp"
+                "src/noisemaker.cpp",
+                "src/multiplier.cpp"
             ],
             "group": {
                 "isDefault": true,

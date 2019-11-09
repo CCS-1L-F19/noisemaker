@@ -25,6 +25,7 @@ template<class S>
 Oscillator formVibratoSineWave(double baseFrequency, double vibratoFrequency, double vibratoMagnitude, S ampSignal) {
     Oscillator result = formSineWave(0, ampSignal);
     result.setFrequencySignal(formVibratoFreqSignal(baseFrequency, vibratoFrequency, vibratoMagnitude));
+    return result;
 }
 
 Adder formVibratoFreqSignal(double baseFrequency, double vibratoFrequency, double vibratoMagnitude) {

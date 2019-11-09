@@ -1,4 +1,5 @@
 #include "noisemaker.h"
+#include "adder.h"
 #include <vector>
 #include <limits>
 #include <cassert>
