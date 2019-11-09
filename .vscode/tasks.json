@@ -1,33 +1,18 @@
 {
     "tasks": [
         {
-            "label": "build fileFuncsTests",
-            "type": "shell",
-            "command": "/usr/bin/g++",
-            "args": [
-                "-g",
-                "-o",
-                "fileFuncsTests",
-                "fileFuncs.cpp",
-                "fileFuncsTests.cpp"
-            ],
-            "group": {
-                "isDefault": true,
-                "kind": "build"
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "build noisemakerTests",
             "type": "shell",
             "command": "/usr/bin/g++",
             "args": [
                 "-g",
+                "-I",
+                "src",
                 "-o",
                 "noisemakerTests",
-                "fileFuncs.cpp",
-                "noisemakerTests.cpp",
-                "noisemaker.cpp"
+                "tests/noisemakerTests.cpp",
+                "src/fileFuncs.cpp",
+                "src/noisemaker.cpp"
             ],
             "group": {
                 "isDefault": true,
