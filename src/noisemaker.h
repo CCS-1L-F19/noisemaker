@@ -8,7 +8,8 @@
 #include <cassert>
 #include <cinttypes>
 
-typedef int16_t sample;
+typedef double sample;
+typedef int16_t writableSample;
 
 namespace noisemaker {
     extern int sampleRate;

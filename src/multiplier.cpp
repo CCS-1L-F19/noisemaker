@@ -6,6 +6,8 @@
 #include <cinttypes>
 using namespace std;
 
+#include <iostream>
+
 Multiplier::Multiplier(std::vector<Signal*> signals) : signals(signals) {}
 
 sample Multiplier::step() {

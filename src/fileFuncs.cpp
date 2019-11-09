@@ -4,7 +4,7 @@
 #include <iostream>
 #include "noisemaker.h"
 
-void writeWavFile(FILE *f, sample *inSamples, int numSamples, int sampleRateIn) {
+void writeWavFile(FILE *f, writableSample *inSamples, int numSamples, int sampleRateIn) {
     // Riff File Header
     const char fileId[4] = {'R', 'I', 'F', 'F'};
     // fileSize is computed later
@@ -14,9 +14,9 @@ void writeWavFile(FILE *f, sample *inSamples, int numSamples, int sampleRateIn) 
     const int16_t compressionType = 1;
     const int16_t numChannels = 1;
     const int32_t sampleRate = sampleRateIn;
-    const int16_t blockAlign = sizeof(sample) * numChannels; // The number of bytes for one sample including all channels
+    const int16_t blockAlign = sizeof(writableSample) * numChannels; // The number of bytes for one sample including all channels
     const int32_t byteRate = sampleRate * blockAlign;
-    const int16_t bitsPerSample = sizeof(sample) * 8;
+    const int16_t bitsPerSample = sizeof(writableSample) * 8;
 
     const int32_t wavHeaderSize = sizeof(compressionType) + sizeof(numChannels) + 
                                   sizeof(sampleRate) + sizeof(blockAlign) + 
@@ -41,5 +41,5 @@ void writeWavFile(FILE *f, sample *inSamples, int numSamples, int sampleRateIn) 
     fwrite(&bitsPerSample, sizeof(bitsPerSample), 1, f);
     fwrite(&dataDescriptor, sizeof(dataDescriptor), 1, f);
     fwrite(&dataSize, sizeof(dataSize), 1, f);
-    fwrite(inSamples, sizeof(sample), numSamples, f);
+    fwrite(inSamples, sizeof(writableSample), numSamples, f);
 }

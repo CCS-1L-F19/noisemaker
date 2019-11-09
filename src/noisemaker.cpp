@@ -11,8 +11,8 @@ using namespace std;
 namespace noisemaker {
     int sampleRate = 44100;
     int maxFrequency = sampleRate / 2;
-    sample maxSample = numeric_limits<sample>::max();
-    sample minSample = numeric_limits<sample>::min();
+    sample maxSample = numeric_limits<writableSample>::max();
+    sample minSample = numeric_limits<writableSample>::min();
 }
 
 sample Signal::step() {
