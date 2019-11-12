@@ -8,10 +8,6 @@ class Oscillator: public Signal {
     public:
         sample step();
 
-        // premade Oscillators
-
-        // TODO: make deepcopy constructor.
-
         // constructors
         template<class S1, class S2>
             Oscillator(S1 ampSig, S2 freqSig, std::vector<double> wtab);
@@ -24,19 +20,20 @@ class Oscillator: public Signal {
         template <class T>
             void setFrequencySignal(T s);
         
+        // helper functions
         double getIncrementValueForFrequency(double f);
         double getIncrementValueFromFrequencySample(sample s);
         static sample generateSampleThatProducesFrequency(double v);
         static double interpretFrequencySample(sample v);
-
-        Signal *amplitudeSignal;
-        Signal *frequencySignal;
 
         static const int defaultWaveTableSize = 1000000;
     private:
         std::vector<double> waveTable;
         double waveTableIndex;
         void setFieldsToZero();
+        Signal *amplitudeSignal;
+        Signal *frequencySignal;
+
  };
 
 #include "oscillator.cpp"

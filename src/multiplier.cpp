@@ -8,14 +8,14 @@ using namespace std;
 
 #include <iostream>
 
-Multiplier::Multiplier(std::vector<Signal*> signals) : signals(signals) {}
+Multiplier::Multiplier(std::vector<Signal*> signals) : managedSignals(signals) {}
 
 sample Multiplier::step() {
-    if (signals.size() == 0)
+    if (managedSignals.size() == 0)
         return 0;
-    sample result = signals.front()->step();
-    for (int i = 1; i < signals.size(); i++) {
-        result *= signals[i]->step();
+    sample result = managedSignals.front()->step();
+    for (int i = 1; i < managedSignals.size(); i++) {
+        result *= managedSignals[i]->step();
     }
     return result;
 }

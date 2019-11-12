@@ -18,8 +18,8 @@ int main() {
   writableSample samples[numSamples];
  
   Multiplier output;
-  output.signals.push_back(new Oscillator(formSineWave(440, Constant(200))));
-  output.signals.push_back(new Oscillator(formSineWave(50, Constant(100))));
+  output.managedSignals.push_back(new Oscillator(formSineWave(440, Constant(200))));
+  output.managedSignals.push_back(new Oscillator(formSineWave(50, Constant(100))));
 
   for (int i = 0; i < numSamples; i++) {
     samples[i] = (writableSample) output.step();
