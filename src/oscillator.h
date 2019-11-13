@@ -21,16 +21,16 @@ class Oscillator: public Signal {
             void setFrequencySignal(T s);
         
         // helper functions
-        double getIncrementValueForFrequency(double f);
-        double getIncrementValueFromFrequencySample(sample s);
-        static sample generateSampleThatProducesFrequency(double v);
-        static double interpretFrequencySample(sample v);
+        static sample generateSampleThatProducesFrequency(double f);
 
         static const int defaultWaveTableSize = 1000000;
     private:
         std::vector<double> waveTable;
         double waveTableIndex;
         void setFieldsToZero();
+        double getIncrementValueForFrequency(double f);
+        double getIncrementValueFromFrequencySample(sample s);
+        static double interpretFrequencySample(sample v);
         Signal *amplitudeSignal;
         Signal *frequencySignal;
 
