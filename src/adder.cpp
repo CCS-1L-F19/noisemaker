@@ -1,3 +1,5 @@
+#pragma once
+
 #include "noisemaker.h"
 #include "adder.h"
 #include <vector>

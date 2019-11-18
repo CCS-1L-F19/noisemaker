@@ -12,7 +12,8 @@
             "intelliSenseMode": "gcc-x86",
             "compilerArgs": [
                 "-g"
-            ]
+            ],
+            "configurationProvider": "vector-of-bool.cmake-tools"
         }
     ],
     "version": 4

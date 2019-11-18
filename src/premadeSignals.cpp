@@ -3,10 +3,6 @@
 #include "oscillator.h"
 #include "adder.h"
 
-Oscillator formSineWave(double frequency) {
-    return formSineWave(frequency, Constant(noisemaker::maxSample));
-}
-
 template<class S>
 Oscillator formSineWave(double frequency, S amplitudeSignal) {
     vector<double> waveTable = {};
@@ -20,12 +16,8 @@ Oscillator formSineWave(double frequency, S amplitudeSignal) {
     return result;
 }
 
-
-template<class S>
-Oscillator formVibratoSineWave(double baseFrequency, double vibratoFrequency, double vibratoMagnitude, S ampSignal) {
-    Oscillator result = formSineWave(0, ampSignal);
-    result.setFrequencySignal(formVibratoFreqSignal(baseFrequency, vibratoFrequency, vibratoMagnitude));
-    return result;
+Oscillator formSineWave(double frequency) {
+    return formSineWave(frequency, Constant(noisemaker::maxSample));
 }
 
 Adder formVibratoFreqSignal(double baseFrequency, double vibratoFrequency, double vibratoMagnitude) {
@@ -35,3 +27,11 @@ Adder formVibratoFreqSignal(double baseFrequency, double vibratoFrequency, doubl
   Oscillator vibratoDelta = formSineWave(vibratoFrequency, Constant(vibratoDeltaAmplitude));
   return Adder({{vibratoBase, 1}, {vibratoDelta, 1}}, false);
 }
+
+template<class S>
+Oscillator formVibratoSineWave(double baseFrequency, double vibratoFrequency, double vibratoMagnitude, S ampSignal) {
+    Oscillator result = formSineWave(0, ampSignal);
+    result.setFrequencySignal(formVibratoFreqSignal(baseFrequency, vibratoFrequency, vibratoMagnitude));
+    return result;
+}
+
