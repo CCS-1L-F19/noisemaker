@@ -10,11 +10,10 @@ Welcome to Noisemaker's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   /signals/adder.rst
-
-Docs
-====
-
-.. doxygenclass:: Signal
-    :members:
-    :undoc-members:
+   /signals/adder
+   /signals/constant
+   /signals/linearEnvelope
+   /signals/multiplier
+   /signals/note
+   /signals/oscillator
+   /signals/signal

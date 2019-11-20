@@ -15,9 +15,11 @@ namespace noisemaker {
     sample minSample = numeric_limits<writableSample>::min();
 }
 
+/**
+ * Returns the value of this Signal after one step */
 sample Signal::step() {
-    // Signal should only be used as an abstract class and this function
-    // should never be called
+    /// Signal should only be used as an abstract class and this function
+    /// should never be called
     assert(false);
     return 0;
 }
