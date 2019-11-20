@@ -20,7 +20,7 @@ void LinearEnvelope::setPhases(vector<Phase> phasev) {
     sort(phases.begin(), phases.end());
 }
 
-int LinearEnvelope::Phase::timeInSamples() {
+int LinearEnvelope::Phase::timeInTicks() {
     return time * noisemaker::sampleRate;
 }
 

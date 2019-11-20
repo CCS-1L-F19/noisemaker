@@ -2,8 +2,8 @@
 
 #include "constant.h"
 
-Constant::Constant(sample d) {
-    value = d;
+Constant::Constant(sample value) {
+    this->value = value;
 }
 
 sample Constant::step() {
