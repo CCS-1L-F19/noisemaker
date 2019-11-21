@@ -6,6 +6,19 @@ The only software required for this library is a C++ compiler and the C++ standa
 Instructions for installing a compiler can be found [here](https://www.cs.odu.edu/~zeil/cs250PreTest/latest/Public/installingACompiler)
 The project must be compiled with c++11 or higher.
 
+# Building on CSIL
+
+To build this on CSIL, you will need to do:
+
+```
+pip3 install --user sphinx
+export PATH=${HOME}/.local/bin:${PATH}
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
 
 # Usage
 
