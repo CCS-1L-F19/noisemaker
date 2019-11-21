@@ -1,6 +1,7 @@
 #pragma once
 
 #include "noisemaker.h"
+#include "signal.h"
 #include <vector>
 
 /// This Signal is used to multiply other Signals together.

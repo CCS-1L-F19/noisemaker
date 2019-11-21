@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 #include "noisemaker.h"
+#include "signal.h"
 
 void writeWavFile(FILE *f, writableSample *inSamples, int numSamples, int sampleRateIn) {
     // Riff File Header

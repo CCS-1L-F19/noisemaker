@@ -1,6 +1,7 @@
 #pragma once
 
 #include "noisemaker.h"
+#include "signal.h"
 #include "adder.h"
 #include <vector>
 #include <limits>

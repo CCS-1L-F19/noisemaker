@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cassert>
 #include "noisemaker.h"
+#include "signal.h"
 
 /**
  * Writes the contents of `s` to FILE f. Usually you will have to cast

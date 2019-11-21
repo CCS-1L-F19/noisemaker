@@ -1,6 +1,7 @@
 #include <vector>
 #include "fileFuncs.h"
 #include "noisemaker.h"
+#include "signal.h"
 #include "oscillator.h"
 #include "constant.h"
 #include "premadeSignals.h"

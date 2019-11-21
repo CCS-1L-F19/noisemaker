@@ -2,6 +2,7 @@
 #include <cmath>
 #include <vector>
 #include "noisemaker.h"
+#include "signal.h"
 #include "fileFuncs.h"
 #include "adder.h"
 #include "multiplier.h"

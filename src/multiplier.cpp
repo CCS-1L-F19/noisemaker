@@ -1,4 +1,5 @@
 #include "noisemaker.h"
+#include "signal.h"
 #include "multiplier.h"
 #include <vector>
 #include <limits>

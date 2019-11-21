@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "noisemaker.h"
+#include "signal.h"
 #include "constant.h"
 
 class Oscillator: public Signal {

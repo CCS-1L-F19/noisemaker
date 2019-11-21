@@ -1,4 +1,5 @@
 #include "noisemaker.h"
+#include "signal.h"
 #include "linearEnvelope.h"
 #include <cstring>
 #include <cstdlib>
@@ -38,16 +39,16 @@ sample LinearEnvelope::Phase::valueInSamples() {
 
 sample LinearEnvelope::step() {
     for (int i = 0; i < phases.size() - 1; i++) {
-        if (samplesElapsed >= phases.back().timeInSamples()) {
+        if (samplesElapsed >= phases.back().timeInTicks()) {
                 samplesElapsed++;
                 return phases.back().valueInSamples();
         }
-        if (samplesElapsed <= phases[i+1].timeInSamples()) {
-            int phaseDurationInSamples = (phases[i+1].timeInSamples() - phases[i].timeInSamples());
+        if (samplesElapsed <= phases[i+1].timeInTicks()) {
+            int phaseDurationInSamples = (phases[i+1].timeInTicks() - phases[i].timeInTicks());
             assert(phaseDurationInSamples > 0);
             sample valueDelta = phases[i+1].valueInSamples() - phases[i].valueInSamples();
             double slope = (double) valueDelta / phaseDurationInSamples;
-            int distanceIntoPhase = samplesElapsed - phases[i].timeInSamples(); 
+            int distanceIntoPhase = samplesElapsed - phases[i].timeInTicks(); 
             samplesElapsed++;
             return distanceIntoPhase * slope + phases[i].valueInSamples();
         }

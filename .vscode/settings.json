@@ -1,4 +1,7 @@
 {
     "restructuredtext.confPath": "${workspaceFolder}/docs/source",
-    "C_Cpp.configurationWarnings": "Disabled"
+    "C_Cpp.configurationWarnings": "Disabled",
+    "files.associations": {
+        "vector": "cpp"
+    }
 }
