@@ -6,6 +6,92 @@ The only software required for this library is a C++ compiler and the C++ standa
 Instructions for installing a compiler can be found [here](https://www.cs.odu.edu/~zeil/cs250PreTest/latest/Public/installingACompiler)
 The project must be compiled with c++11 or higher.
 
+## Mac OS preliminaries
+
+You need to install `cmake`.  Instructions are [here](http://macappstore.org/cmake/)
+
+If you already have `brew` installed, you should be able to do:
+
+```
+brew install cmake
+```
+
+You also need these to install the documentation.   The cmake may error out if you don't have these installed:
+
+```
+brew install sphinx doxygen 
+```
+
+Finally, you need something called `breathe` which is Python software installed
+with `pip` (or `pip3`, depending on your Python install) If you don't already have `pip` installed, that's another rabbit hole (left as an exercise
+to the reader.)
+
+
+## Install instructions
+
+To start, make a build directory:
+
+```
+mkdir build
+cd build
+cmake ..
+```
+
+If it works, it should look something like this:
+
+```
+169-231-158-36:build pconrad$ cmake ..
+-- The C compiler identification is AppleClang 10.0.0.10001145
+-- The CXX compiler identification is AppleClang 10.0.0.10001145
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Doxygen: /usr/local/bin/doxygen (found version "1.8.16") found components:  doxygen missing components:  dot
+-- Found Sphinx: /Library/Frameworks/Python.framework/Versions/3.6/bin/sphinx-build  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/pconrad/github/ccs-1l-f19/noisemaker/build
+169-231-158-36:build pconrad$ 
+```
+
+The next step is to do:
+
+```
+cmake --build .
+```
+
+Now you can do several things:
+
+* *Read the docs* : If all goes as planned, among other things you 
+  should now find
+  a file called `build/docs/sphinx/index.html` and if you point a browser
+  at it, you can read the documentation.
+* Run one of the already written main programs that makes some sound.
+  ```
+  cd tests
+  ./NoisemakerTests
+  ```
+
+  That creates an output file called `test.wav` which you can play
+  in Audacity, or your favorite media player.
+
+  The the other one is:
+
+  ```
+  ./Megalovania
+  ```
+
+  The source for each of these is in: $ROOT/tests/*.cpp
+  
 # Building on CSIL
 
 To build this on CSIL, you will need to do:
