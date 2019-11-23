@@ -93,9 +93,10 @@ Now you can do several things:
   ```
 
   The source for each of these is in: $ROOT/tests/*.cpp
-# Building on CSIL
+  
+# Building on Linux without sudo privilages
 
-To build this on CSIL, you will need to do:
+To build this on Linux without sudo privilages, you will need to do:
 
 ```
 pip3 install --user sphinx
