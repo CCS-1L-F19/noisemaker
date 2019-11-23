@@ -27,8 +27,6 @@ with `pip` (or `pip3`, depending on your Python install) If you don't already ha
 to the reader.)
 
 
-
-
 ## Install instructions
 
 To start, make a build directory:
@@ -93,6 +91,20 @@ Now you can do several things:
   ```
 
   The source for each of these is in: $ROOT/tests/*.cpp
+  
+# Building on CSIL
+
+To build this on CSIL, you will need to do:
+
+```
+pip3 install --user sphinx
+export PATH=${HOME}/.local/bin:${PATH}
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
 
 # Usage
 
