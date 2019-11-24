@@ -15,7 +15,9 @@ namespace noisemaker {
      * The maximum frequency that can be represented at the current
      * sampleRate without causing aliasing. Value is `sampleRate / 2`*/
     extern int maxFrequency;
+    /// The maximum value of the `writableSample` datatype.
     extern sample maxSample;
+    /// The minumum value of the `writableSample` datatype.
     extern sample minSample;
 }
 

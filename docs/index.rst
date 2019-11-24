@@ -17,3 +17,4 @@ Welcome to Noisemaker's documentation!
    /signals/note
    /signals/oscillator
    /signals/signal
+   /noisemaker

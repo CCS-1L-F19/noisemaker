@@ -1,0 +1,5 @@
+Noisemaker
+==========
+
+.. doxygennamespace:: noisemaker
+    :members:
