@@ -2,41 +2,68 @@ Noisemaker is a digital audio synthesizer library. Right now, the user designs a
 
 # Installation
 
-The only software required for this library is a C++ compiler and the C++ standard library.
+For starters, you'll need a C++ compiler and the C++ standard library.
 Instructions for installing a compiler can be found [here](https://www.cs.odu.edu/~zeil/cs250PreTest/latest/Public/installingACompiler)
-The project must be compiled with c++11 or higher.
+The project must be compiled with C++11 or higher.
 
-## Mac OS preliminaries
+**For Windows Users:** Note that if you use MinGW (as is recommended) on Windows, you'll have to make sure you install the `mingw32-gcc-g++-bin` and `mingw32-make-bin` packages and add them to your path. Otherwise you'll have to use a different generator for CMake and you're on your own.
 
-You need to install `cmake`.  Instructions are [here](http://macappstore.org/cmake/)
+## Other requisite software
 
-If you already have `brew` installed, you should be able to do:
+You need to install `cmake`.
 
+On Linux, you can simply run
+
+```
+apt install cmake
+```
+Or on MacOS, run
 ```
 brew install cmake
 ```
+For Windows systems, you can find the latest version of CMake [here](https://cmake.org/download/). Make sure you add cmake to your path.
 
-You also need these to install the documentation.   The cmake may error out if you don't have these installed:
 
+If you want to build the documentation, you'll need a few more libraries. The cmake may error out if you don't have these installed. 
+
+You need to have [Python 3](https://www.python.org/downloads/) installed no matter what operating system you're using. On Windows, make sure that you add python and pip3 to your path.
+
+Linux:
 ```
-brew install sphinx doxygen 
+apt install doxygen
+pip3 install sphinx sphinx_rtd_theme breathe
 ```
+MacOS:
+```
+brew install doxygen
+pip3 install sphinx sphinx_rtd_theme breathe
+```
+Windows:
 
-Finally, you need something called `breathe` which is Python software installed
-with `pip` (or `pip3`, depending on your Python install) If you don't already have `pip` installed, that's another rabbit hole (left as an exercise
-to the reader.)
+Doxygen can be downloaded [here](http://www.doxygen.nl/download.html).
+Then you can run:
+```
+pip3 install sphinx sphinx_rtd_theme breathe
+```
 
 
 
 
 ## Install instructions
 
-To start, make a build directory:
+To start, make a build directory in the project:
 
 ```
 mkdir build
 cd build
+```
+Then run, on MacOS or Linux, run
+```
 cmake ..
+```
+On Windows, you should run
+```
+cmake .. -G "MinGW Makefiles"
 ```
 
 If it works, it should look something like this:
