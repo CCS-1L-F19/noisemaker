@@ -17,8 +17,8 @@ class LinearEnvelope: public Signal {
     sample step();
         /**
          * A Phase consists of a time in seconds and a value between zero and one.
-         * The time field determines when the LinearEnvelope will reach the
-         * value field of the Phase. */
+         * The `time` field determines when the LinearEnvelope will reach the
+         * `value` field of the Phase. */
         struct Phase {
             double value;
             double time;
