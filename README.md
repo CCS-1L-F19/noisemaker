@@ -149,24 +149,26 @@ The basic workflow in Noisemaker is as follows:
 
 Below is an exaple of how to create a 440hz sine wave:
 
-    sample samples[100000];
-    Constant c(noisemaker::maxSample*.5);
-    Oscillator o = Oscillator::sineWave(440);
+    #include "noisemaker.h"
+    #include "oscillator.h"
+    #include "premadeSignals.h"
+    #include "filefuncs.h"
+    
+    writableSample samples[100000];
+    Oscillator o = formSineWave(440);
     
     for (int i = 0; i < numSamples; i++) {
-     samples[i] = o.step();
+     samples[i] = (writableSample) o.step();
     }
+    
     writeWavFile(fopen("test.wav", "w"), samples, numSamples, noisemaker::sampleRate);
 
-`sample` is the type that noisemaker uses to store samples. Right now it should be int16_t.
+`writableSample` is the type that noisemaker uses to store samples. Right now it should be `int_16_t`.
 
-`Constant` is a subclass of the `Signal` class. All `Signal`s have a `step()` function that returns the next sample that the 
-`Signal` has generated. For some `Signal`s this will vary from call to call, but for a `Constant`, `step()`'s return value
-is unsurprisingly constant.
-
-`Oscillator` is another `Signal`. Here we use the premade `Oscillator` returned by the `sineWave` function.
+`Oscillator` is a subclass of the `Signal` class. All `Signal`s have a `step()` function that returns the next sample that the 
+`Signal` has generated. Here we use the premade `Oscillator` returned by the `sineWave` function.
 It returns samples that make a sine wave at the specified frequency.
 
-In the following `for` loop, we write `Oscillator`'s `step()` values to an array
+In the following `for` loop, we write `Oscillator`'s `step()` values to an array. We cast them to writableSample, because that is the data type that writeWavFile expects.
 
 Finally we pass that array to the `writeWavFile` function. Its parameters are self-explanatory.
