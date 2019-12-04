@@ -2,6 +2,8 @@ Noisemaker is a digital audio synthesizer library. Right now, the user designs a
 
 # Installation
 
+Disclaimer: Installation instructions are given for Windows and MacOS but serious bugs exist on the Windows build and the Mac build is untested.
+
 For starters, you'll need a C++ compiler and the C++ standard library.
 Instructions for installing a compiler can be found [here](https://www.cs.odu.edu/~zeil/cs250PreTest/latest/Public/installingACompiler)
 The project must be compiled with C++11 or higher.
