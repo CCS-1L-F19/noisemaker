@@ -26,7 +26,7 @@ brew install cmake
 For Windows systems, you can find the latest version of CMake [here](https://cmake.org/download/). Make sure you add cmake to your path.
 
 
-If you want to build the documentation, you'll need a few more libraries. The cmake may error out if you don't have these installed. 
+## Libraries required for building the documentation 
 
 You need to have [Python 3](https://www.python.org/downloads/) installed no matter what operating system you're using. On Windows, make sure that you add python and pip3 to your path.
 
@@ -63,35 +63,42 @@ Then run, on MacOS or Linux, run
 ```
 cmake ..
 ```
+Or, to build the documentation too, run
+
+```
+cmake -DBUILD_DOCUMENTATION ..
+```
 On Windows, you should run
 ```
 cmake .. -G "MinGW Makefiles"
+```
+Again, to build the documentation, you'll need to run
+
+```
+cmake -DBUILD_DOCUMENTATION -G "MinGW Makefiles" ..
 ```
 
 If it works, it should look something like this:
 
 ```
-169-231-158-36:build pconrad$ cmake ..
--- The C compiler identification is AppleClang 10.0.0.10001145
--- The CXX compiler identification is AppleClang 10.0.0.10001145
--- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
--- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -- works
+jack@the-machine:/mnt/c/Users/99jac/Documents/noisemaker/build$ cmake ..
+-- The C compiler identification is GNU 7.4.0
+-- The CXX compiler identification is GNU 7.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
--- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -- works
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Found Doxygen: /usr/local/bin/doxygen (found version "1.8.16") found components:  doxygen missing components:  dot
--- Found Sphinx: /Library/Frameworks/Python.framework/Versions/3.6/bin/sphinx-build  
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/pconrad/github/ccs-1l-f19/noisemaker/build
-169-231-158-36:build pconrad$ 
+-- Build files have been written to: /mnt/c/Users/99jac/Documents/noisemaker/build
 ```
 
 The next step is to do:
@@ -102,9 +109,8 @@ cmake --build .
 
 Now you can do several things:
 
-* *Read the docs* : If all goes as planned, among other things you 
-  should now find
-  a file called `build/docs/sphinx/index.html` and if you point a browser
+* *Read the docs* : If you build the documentation and all goes as planned, among other things you 
+  should now find a file called `build/docs/sphinx/index.html` and if you point a browser
   at it, you can read the documentation.
 * Run one of the already written main programs that makes some sound.
   ```
@@ -139,7 +145,7 @@ cmake --build .
 
 # Usage
 
-The basic workflow in noisemaker is as follows:
+The basic workflow in Noisemaker is as follows:
 1. Create a custom instrument using Noisemaker classes
 2. Read the samples of that instrument into an array
 3. Write those samples into a wav file
