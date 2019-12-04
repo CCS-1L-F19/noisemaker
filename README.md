@@ -169,6 +169,6 @@ Below is an exaple of how to create a 440hz sine wave:
 `Signal` has generated. Here we use the premade `Oscillator` returned by the `sineWave` function.
 It returns samples that make a sine wave at the specified frequency.
 
-In the following `for` loop, we write `Oscillator`'s `step()` values to an array. We cast them to writableSample, because that is the data type that writeWavFile expects.
+In the following `for` loop, we write `Oscillator`'s `step()` values to an array. We cast them from `sample` to `writableSample`, because that is the data type that writeWavFile expects.
 
 Finally we pass that array to the `writeWavFile` function. Its parameters are self-explanatory.
