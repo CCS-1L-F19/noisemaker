@@ -63,7 +63,7 @@ cmake ..
 Or, to build the documentation too, run
 
 ```
-cmake -DBUILD_DOCUMENTATION=ON ..
+cmake -DBUILD_DOCS=ON ..
 ```
 On Windows, you should run
 ```
@@ -72,7 +72,7 @@ cmake .. -G "MinGW Makefiles"
 Again, to build the documentation, you'll need to run
 
 ```
-cmake -DBUILD_DOCUMENTATION=ON -G "MinGW Makefiles" ..
+cmake -DBUILD_DOCS=ON -G "MinGW Makefiles" ..
 ```
 
 If it works, it should look something like this:
